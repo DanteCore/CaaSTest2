@@ -25,16 +25,13 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
             for section in 0..<collectionView!.numberOfSections() {
                 
                 for index in 0..<collectionView!.numberOfItemsInSection(section) {
-                    if index != 0 {
-                        continue
-                    }
-                    
-                    let attributes = layoutAttributesForItemAtIndexPath(NSIndexPath(forItem: index, inSection: section))
-                    
-                    if index == 0 {
+                    if section == 0 {
+                        let attributes = layoutAttributesForItemAtIndexPath(NSIndexPath(forItem: index, inSection: section))
                         var frame = attributes.frame
-                        frame.origin.x = collectionView!.contentOffset.x
+                        frame.origin.y = self.collectionView!.contentOffset.y
                         attributes.frame = frame
+                    } else {
+                        continue
                     }
                 }
             }
@@ -62,13 +59,10 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
                 let attributes = UICollectionViewLayoutAttributes(forCellWithIndexPath: indexPath)
                 attributes.frame = CGRectIntegral(CGRectMake(xOffset, yOffset, itemSize.width, itemSize.height))
                 
-                if index == 0 {
-                    attributes.zIndex = 1;
-                }
-                
-                if index == 0 {
+                if section == 0 {
+                    attributes.zIndex = 1
                     var frame = attributes.frame
-                    frame.origin.x = collectionView!.contentOffset.x
+                    frame.origin.y = self.collectionView!.contentOffset.y
                     attributes.frame = frame
                 }
                 
@@ -128,7 +122,7 @@ class CustomCollectionViewLayout: UICollectionViewLayout {
     }
     
     func sizeForItemWithColumnIndex(columnIndex: Int) -> CGSize {
-        return CGSizeMake(collectionView!.frame.width/4, 60)
+        return CGSizeMake(collectionView!.frame.width/5, 60)
     }
     
     func calculateItemsSize() {
